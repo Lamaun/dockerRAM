@@ -1,0 +1,25 @@
+CORE=$(ls /var/lib/snapd/snaps/ | grep core)
+TMPFS="tmp"
+
+systemctl stop snap.docker.dockerd.service
+umount /var/snap/docker
+snap remove docker
+mkdir /var/snap/docker
+mount tmpfs /var/snap/docker -t tmpfs -o defaults,noatime,mode=1700
+cp /var/lib/snapd/snaps/$CORE /$TMPFS/$CORE
+mount tmpfs /var/lib/snapd/snaps/ -t tmpfs -o defaults,noatime,mode=1700
+ln -s /$TMPFS/$CORE /var/lib/snapd/snaps/$CORE
+snap install docker
+
+DOCKER=$(ls /var/lib/snapd/snaps/ | grep docker)
+DOCKERMOUNT=$(ls /etc/systemd/system | grep docker | grep mount | grep snap | grep "[0-9]" | cut -d" " -f3)
+
+systemctl disable snap.docker.dockerd.service
+systemctl disable $DOCKERMOUNT
+systemctl stop $DOCKERMOUNT
+systemctl stop snap.docker.dockerd.service
+mv /var/lib/snapd/snaps/$DOCKER /$TMPFS/$DOCKER
+rm /var/lib/snapd/snaps/$CORE
+umount /var/lib/snapd/snaps/
+ln -s /$TMPFS/$DOCKER /var/lib/snapd/snaps/$DOCKER
+rm /$TMPFS/$CORE

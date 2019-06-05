@@ -1,0 +1,9 @@
+DOCKER=$(ls /var/lib/snapd/snaps/ | grep docker)
+DOCKERMOUNT=$(ls /etc/systemd/system | grep docker | grep mount| grep snap | grep "[0-9]" | cut -d" " -f3)
+HDD="datadisk"
+
+mount tmpfs /var/snap/docker -t tmpfs -o defaults,noatime,mode=1700
+cp -r /$HDD/docker/* /var/snap/docker/
+cp -r /$HDD/dockerprg/$DOCKER /tmp/$DOCKER
+systemctl start $DOCKERMOUNT
+systemctl start snap.docker.dockerd.service

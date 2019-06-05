@@ -1,0 +1,7 @@
+DOCKER=$(ls /var/lib/snapd/snaps/ | grep docker)
+HDD="datadisk"
+
+rm -rf /$HDD/docker/*
+rm /$HDD/dockerprg/*
+cp /var/lib/snapd/snaps/$DOCKER /$HDD/dockerprg/$DOCKER 
+cp -r /var/snap/docker/* /$HDD/docker

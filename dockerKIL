@@ -1,0 +1,7 @@
+DOCKER=$(ls /var/lib/snapd/snaps/ | grep docker)
+DOCKERMOUNT=$(ls /etc/systemd/system | grep docker | grep mount| grep snap | grep "[0-9]" | cut -d" " -f3)
+
+systemctl stop $DOCKERMOUNT
+systemctl stop snap.docker.dockerd.service
+umount /var/snap/docker
+rm /tmp/$DOCKER

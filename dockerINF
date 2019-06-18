@@ -1,0 +1,29 @@
+DOCKER=$(ls /var/lib/snapd/snaps/ | grep docker)
+HDD="datadisk"
+
+INSTALLED=$(find -L /var/lib/snapd/snaps/ -maxdepth 1 -type l)
+if [ "$INSTALLED" != "" ]
+then
+	echo "The docker snap is currently not installed."
+	if [ "$(ls /$HDD/dockerprg)" == "" ] 
+	then
+		echo "Install it with dockerNEW."
+	else
+		echo "Load the last saved state from /$HDD with dockerRAM."
+	fi
+else
+	DIFF="$(diff -r /$HDD/docker/ /var/snap/docker/ | grep -v socket)$(diff /$HDD/dockerprg/$DOCKER /tmp/$DOCKER 2> /dev/null)"
+	RUNNING=$(systemctl | grep dockerd)
+	if [ "$RUNNING" == "" ]
+        then
+                echo "The docker snap is currently installed but not running. Start it with dockerRAM."
+        else
+                echo "The docker snap is currently installed and running. Stop it with dockerKIL"
+        fi
+	if [ "$DIFF" == "" ]
+	then
+		echo "The version saved to /$HDD is the same as the currently loaded version."
+	else
+		echo "You have changed the docker since you loaded it. Save it with dockerSAV."
+	fi
+fi

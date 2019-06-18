@@ -23,7 +23,7 @@ in your /etc/fstab. You might want to read https://askubuntu.com/questions/17309
 
 ```Reboot``` or ```mount -a #not recommended``` to complete your first step into tmpfs.
 
-Edit dockerNEW, dockerRAM, dockerSAV and change the location of your $TMPFS and your $HDD according to your system.
+Edit dockerNEW, dockerRAM, dockerSAV, dockerKIL, dockerINF and change the location of your $TMPFS and your $HDD according to your system.
 Then create these folders:
 ```
 sudo bash
@@ -54,6 +54,11 @@ Installation complete.
 - dockerRAM
   - loads from disk
   - starts docker
+- dockerINF
+  - prints some info about the current state
+- dockerKIL
+  - stops docker
+  - frees ram
   
 Installation of a new docker should be done in the following way:
 ```

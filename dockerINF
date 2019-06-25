@@ -12,7 +12,7 @@ then
 		echo "Load the last saved state from /$HDD with dockerRAM."
 	fi
 else
-	DIFF="$(diff -r /$HDD/docker/ /var/snap/docker/ | grep -v socket)$(diff /$HDD/dockerprg/$DOCKER /tmp/$DOCKER 2> /dev/null)"
+	DIFF="$(diff -r /$HDD/docker/ /var/snap/docker/ 2> /dev/null | grep -v socket)$(diff /$HDD/dockerprg/$DOCKER /tmp/$DOCKER 2> /dev/null)"
 	RUNNING=$(systemctl | grep dockerd)
 	if [ "$RUNNING" == "" ]
         then

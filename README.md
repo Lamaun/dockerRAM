@@ -71,3 +71,8 @@ If your disk is a git repo you can than commit your progress.
 
 After a reboot you only need ```dockerRAM``` or if you want to go back to a different version of your docker installation
 use the git first.
+
+# Troubleshoot
+Issues I had at some point:
+- ubuntu image got updated, somehow broke apt in the containers i had saved. -> rebuild after dockerNEW
+- snap installed a new version of its core (Two files match core_* in /var/lib/snapd/snaps/) -> rm the one with the smaller number

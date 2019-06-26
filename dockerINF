@@ -19,6 +19,8 @@ else
                 echo "The docker snap is currently installed but not running. Start it with dockerRAM."
         else
                 echo "The docker snap is currently installed and running. Stop it with dockerKIL"
+		echo "Currently the following images are built:"
+                docker images
         fi
 	if [ "$DIFF" == "" ]
 	then
